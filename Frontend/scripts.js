@@ -92,12 +92,12 @@ function fetchSuggestions(input, listId) {
     });
 }
 
-const debouncedFetchSuggestions = debounce(fetchSuggestions, 100);
+// const debouncedFetchSuggestions = debounce(fetchSuggestions, 100);
 
-document.getElementById('origin').addEventListener('input', function() {
-    debouncedFetchSuggestions(this, 'origin-list');
-});
+// document.getElementById('origin').addEventListener('input', function() {
+//     debouncedFetchSuggestions(this, 'origin-list');
+// });
 
-document.getElementById('destination').addEventListener('input', function() {
-    debouncedFetchSuggestions(this, 'destination-list');
-});
+// document.getElementById('destination').addEventListener('input', function() {
+//     debouncedFetchSuggestions(this, 'destination-list');
+// });
