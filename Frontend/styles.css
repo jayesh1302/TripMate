@@ -1,0 +1,31 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.card-title {
+    margin-bottom: 1.5rem;
+}
+
+#searchForm .form-group label {
+    font-weight: bold;
+}
+
+#searchForm .btn {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.dropdown-menu {
+    display: none;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    cursor: pointer;
+}

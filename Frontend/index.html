@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Search</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title text-center">Search Flights</h3>
+                <form id="searchForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-6 position-relative">
+                            <label for="origin">Leaving from</label>
+                            <input type="text" class="form-control" id="origin" placeholder="Origin Airport" autocomplete="off">
+                            <div id="origin-list" class="dropdown-menu w-100"></div>
+                        </div>
+                        <div class="form-group col-md-6 position-relative">
+                            <label for="destination">Going to</label>
+                            <input type="text" class="form-control" id="destination" placeholder="Destination Airport" autocomplete="off">
+                            <div id="destination-list" class="dropdown-menu w-100"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="departure_date">Date</label>
+                            <input type="date" class="form-control" id="departure_date">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="travellers">Travelers</label>
+                            <input type="number" class="form-control" id="travellers" value="1">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
