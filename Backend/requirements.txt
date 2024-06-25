@@ -3,3 +3,4 @@ amadeus
 flask-cors
 jsonify
 Flask-SQLAlchemy
+flask-socketio
