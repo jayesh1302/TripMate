@@ -12,7 +12,8 @@ def search_flights():
     origin = data['origin']
     destination = data['destination']
     departure_date = data['departure_date']
-    return search_cheapest_flights(origin, destination, departure_date)
+    travellers = data['travellers']
+    return search_cheapest_flights(origin, destination, departure_date, travellers)
 
 @app.route('/search_locations', methods=['POST'])
 def search_locations():

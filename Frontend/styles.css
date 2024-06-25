@@ -29,3 +29,11 @@ body {
 .dropdown-item {
     cursor: pointer;
 }
+
+.result-item {
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}

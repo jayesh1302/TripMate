@@ -12,14 +12,16 @@ amadeus = Client(
     client_secret=os.getenv('AMADEUS_CLIENT_SECRET')
 )
 
-def search_cheapest_flights(origin, destination, departure_date):
+def search_cheapest_flights(origin, destination, departure_date, travellers):
     try:
         response = amadeus.shopping.flight_offers_search.get(
             originLocationCode=origin,
             destinationLocationCode=destination,
             departureDate=departure_date,
-            adults=1,
-            max=5
+            adults=travellers,
+            max=5,
+            currencyCode="USD",
+            nonStop="true"
         )
         return jsonify(response.data)
     except ResponseError as error:

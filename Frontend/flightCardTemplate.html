@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./flightCardTemplate.css">
+    <!-- Ensure you have Bootstrap Icons if using them -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body>
+            <div class="card-body">
+                <h5 class="card-title d-flex justify-content-between align-items-center">
+                    <span><strong>{{departureTime}}</strong> - <strong>{{arrivalTime}}</strong></span>
+                    <span class="badge badge-success">${{price}}</span>
+                </h5>
+                <p class="card-subtitle mb-2 text-muted">
+                    {{departureIataCode}} to {{arrivalIataCode}} <i class="bi bi-geo-alt-fill ml-2"></i>
+                </p>
+                <ul class="list-unstyled mt-3">
+                    <li>Duration: {{duration}} <i class="bi bi-clock-fill"></i></li>
+                    <li>Flight Number: {{carrierCode}} {{flightNumber}} <i class="bi bi-airplane"></i></li>
+                    <li>Seats Available: {{seatsAvailable}} <i class="bi bi-people-fill"></i></li>
+                </ul>
+    </div>
+</body>
+</html>

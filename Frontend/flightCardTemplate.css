@@ -1,0 +1,71 @@
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif; /* Ensures text is clearly readable */
+}
+
+.card {
+    width: 90%; /* Responsive width */
+    max-width: 600px; /* Maximum width to maintain design integrity */
+    margin: 20px auto; /* Centered with margin from the top and bottom */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for better depth */
+    border: 1px solid #ccc; /* Single line border */
+    border-radius: 8px; /* Rounded corners */
+    background: #ffffff; /* White background */
+    padding: 20px; /* Padding around the content */
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+.card-header, .card-body {
+    border: none; /* Ensure no additional borders within card components */
+}
+
+.card-title {
+    margin-bottom: 1.5rem;
+    color: #555; /* Slightly darker text for the title for emphasis */
+}
+
+.price-tag {
+    margin-left: auto;
+    background-color: #28a745; /* Green background for price */
+    color: #ffffff; /* White text */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.icon-flight {
+    display: inline-block;
+    margin-right: 10px;
+    width: 24px; /* Size of the icon */
+    height: 24px; /* Size of the icon */
+    background-image: url('./assets/airplane.svg'); /* Path to your flight icon image */
+    background-size: cover;
+}
+
+#searchForm .form-group label {
+    font-weight: bold;
+}
+
+#searchForm .btn {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.dropdown-menu {
+    display: none;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    cursor: pointer;
+}
+
+.result-item {
+    background-color: #f8f9fa;
+    border: none; /* Ensure no border to avoid double border appearance */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}

@@ -22,16 +22,41 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
         },
         body: JSON.stringify(searchData)
     })
-    .then(response => {
-        console.log('Flight search response:', response);
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
-        console.log('Flight search response data:', data);
-        // Handle the response data here
+        // Clear previous results
+        const resultsContainer = document.getElementById('resultsContainer');
+        resultsContainer.innerHTML = '';
+
+        // Create new cards for each flight offer
+        data.forEach(flight => createFlightCard(flight, resultsContainer));
     })
     .catch(error => console.error('Error during flight search:', error));
 });
+
+function createFlightCard(flight, container) {
+    fetch('flightCardTemplate.html')
+        .then(response => response.text())
+        .then(template => {
+            const itinerary = flight.itineraries[0].segments[0];
+            let cardHTML = template
+                .replace('{{departureIataCode}}', itinerary.departure.iataCode)
+                .replace('{{arrivalIataCode}}', itinerary.arrival.iataCode)
+                .replace('{{departureTime}}', itinerary.departure.at.substring(11, 16))
+                .replace('{{arrivalTime}}', itinerary.arrival.at.substring(11, 16))
+                .replace('{{duration}}', itinerary.duration.substring(2).toLowerCase())
+                .replace('{{flightNumber}}', itinerary.number)
+                .replace('{{carrierCode}}', itinerary.carrierCode)
+                .replace('{{price}}', flight.price.grandTotal)
+                .replace('{{seatsAvailable}}', flight.numberOfBookableSeats);
+
+            const card = document.createElement('div');
+            card.className = 'card col-md-4';
+            card.innerHTML = cardHTML;
+            container.appendChild(card);
+        })
+        .catch(error => console.error('Error loading the template:', error));
+}
 
 function debounce(func, wait) {
     let timeout;
@@ -50,8 +75,6 @@ function fetchSuggestions(input, listId) {
         return;
     }
 
-    console.log(`Fetching suggestions for keyword: ${keyword}`);
-
     fetch('http://127.0.0.1:5000/search_locations', {
         method: 'POST',
         headers: {
@@ -59,22 +82,17 @@ function fetchSuggestions(input, listId) {
         },
         body: JSON.stringify({ keyword: keyword, limit: 5 })
     })
-    .then(response => {
-        console.log('Location search response:', response);
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
-        console.log('Location search response data:', data);
         const list = document.getElementById(listId);
         list.innerHTML = '';
         if (Array.isArray(data)) {
             data.forEach(location => {
-                console.log('Adding location to list:', location);
                 const item = document.createElement('a');
                 item.className = 'dropdown-item';
                 item.innerText = `${location.name} (${location.iataCode})`;
                 item.onclick = () => {
-                    input.value = `${location.name} (${location.iataCode})`;
+                    input.value = `${location.iataCode}`;
                     list.innerHTML = '';
                     list.style.display = 'none';
                 };
@@ -82,7 +100,6 @@ function fetchSuggestions(input, listId) {
             });
             list.style.display = 'block';
         } else {
-            console.log('No locations found or invalid data format:', data);
             list.style.display = 'none';
         }
     })
@@ -92,12 +109,12 @@ function fetchSuggestions(input, listId) {
     });
 }
 
-// const debouncedFetchSuggestions = debounce(fetchSuggestions, 100);
+const debouncedFetchSuggestions = debounce(fetchSuggestions, 100);
 
-// document.getElementById('origin').addEventListener('input', function() {
-//     debouncedFetchSuggestions(this, 'origin-list');
-// });
+document.getElementById('origin').addEventListener('input', function() {
+    debouncedFetchSuggestions(this, 'origin-list');
+});
 
-// document.getElementById('destination').addEventListener('input', function() {
-//     debouncedFetchSuggestions(this, 'destination-list');
-// });
+document.getElementById('destination').addEventListener('input', function() {
+    debouncedFetchSuggestions(this, 'destination-list');
+});
