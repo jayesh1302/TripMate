@@ -11,8 +11,36 @@
 </head>
 
 <body>
+    <div class="modal fade" id="sessionModal" tabindex="-1" aria-labelledby="sessionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sessionModalLabel">Session Options</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="newSessionForm">
+                        <div class="form-group">
+                            <label for="userName">Enter your name:</label>
+                            <input type="text" class="form-control" id="userName" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Start New Session</button>
+                    </form>
+                    <form id="joinSessionForm">
+                        <div class="form-group">
+                            <label for="sessionCode">Enter session code:</label>
+                            <input type="text" class="form-control" id="sessionCode" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Join Session</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="navbar-placeholder"></div>
-
+    
     <div class="container mt-5">
         <div class="card">
             <div class="card-body">
@@ -59,8 +87,7 @@
                 .catch(error => console.error('Error loading the navbar:', error));
         });
         </script>
-        
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="scripts.js"></script>

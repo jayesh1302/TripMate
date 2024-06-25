@@ -1,3 +1,5 @@
 flask
 amadeus
 flask-cors
+jsonify
+Flask-SQLAlchemy

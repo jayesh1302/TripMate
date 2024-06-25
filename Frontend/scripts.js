@@ -1,39 +1,104 @@
-document.getElementById('searchForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+// Check local storage to decide whether to show the session modal
+$(document).ready(function() {
+    if (!localStorage.getItem('sessionActive')) {
+        $('#sessionModal').modal('show');
+    }
 
-    const origin = document.getElementById('origin').value;
-    const destination = document.getElementById('destination').value;
-    const departure_date = document.getElementById('departure_date').value;
-    const travellers = document.getElementById('travellers').value;
+    // Handle the form submission for creating a new session
+    $('#newSessionForm').on('submit', function(e) {
+        e.preventDefault();
+        const userName = $('#userName').val();
+        $.ajax({
+            url: 'http://127.0.0.1:5000/create_session',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ userName: userName }),
+            success: function(response) {
+                localStorage.setItem('sessionActive', 'true'); // Set session active flag
+                $('#sessionCodeDisplay').text(response.sessionCode); // Update session code display
+                $('#sessionModal').modal('hide');
+                alert('Session started. Your session code: ' + response.sessionCode);
+            },
+            error: function() {
+                alert('Failed to create session.');
+            }
+        });
+    });
 
-    console.log('Form Submitted', { origin, destination, departure_date, travellers });
+    // Handle the form submission for joining an existing session
+    $('#joinSessionForm').on('submit', function(e) {
+        e.preventDefault();
+        const sessionCode = $('#sessionCode').val();
+        $.ajax({
+            url: 'http://127.0.0.1:5000/join_session',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ sessionCode: sessionCode }),
+            success: function(response) {
+                localStorage.setItem('sessionActive', 'true'); // Set session active flag
+                $('#sessionCodeDisplay').text(sessionCode); // Update session code display
+                $('#sessionModal').modal('hide');
+                alert('Joined session successfully.');
+            },
+            error: function() {
+                alert('Session code does not exist.');
+            }
+        });
+    });
 
-    const searchData = {
-        origin: origin,
-        destination: destination,
-        departure_date: departure_date,
-        travellers: travellers
-    };
+    // Flight search form submission handling
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-    fetch('http://127.0.0.1:5000/search_flights', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(searchData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Clear previous results
-        const resultsContainer = document.getElementById('resultsContainer');
-        resultsContainer.innerHTML = '';
+        const origin = document.getElementById('origin').value;
+        const destination = document.getElementById('destination').value;
+        const departure_date = document.getElementById('departure_date').value;
+        const travellers = document.getElementById('travellers').value;
 
-        // Create new cards for each flight offer
-        data.forEach(flight => createFlightCard(flight, resultsContainer));
-    })
-    .catch(error => console.error('Error during flight search:', error));
+        const searchData = {
+            origin: origin,
+            destination: destination,
+            departure_date: departure_date,
+            travellers: travellers
+        };
+
+        fetch('http://127.0.0.1:5000/search_flights', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(searchData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.innerHTML = '';
+            data.forEach(flight => createFlightCard(flight, resultsContainer));
+        })
+        .catch(error => console.error('Error during flight search:', error));
+    });
+
+    // Location suggestions debouncing
+    document.getElementById('origin').addEventListener('input', function() {
+        debouncedFetchSuggestions(this, 'origin-list');
+    });
+
+    document.getElementById('destination').addEventListener('input', function() {
+        debouncedFetchSuggestions(this, 'destination-list');
+    });
 });
 
+// Function to copy the session code to the clipboard
+function copySessionCode() {
+    const sessionCode = document.getElementById('sessionCodeDisplay').textContent;
+    navigator.clipboard.writeText(sessionCode).then(() => {
+        alert('Session code copied to clipboard!');
+    }, (err) => {
+        alert('Failed to copy session code: ', err);
+    });
+}
+
+// Flight card creation from template
 function createFlightCard(flight, container) {
     fetch('flightCardTemplate.html')
         .then(response => response.text())
@@ -58,6 +123,7 @@ function createFlightCard(flight, container) {
         .catch(error => console.error('Error loading the template:', error));
 }
 
+// Debounce function for location suggestions
 function debounce(func, wait) {
     let timeout;
     return function(...args) {
